@@ -129,7 +129,7 @@
       const detail = document.createElement("p"); detail.textContent = finding.description;
       content.append(heading,detail); li.append(symbol,content); findingList.append(li);
     });
-    results.hidden = false; historySection.hidden = true; pageTitle.textContent = "Hasil pemeriksaan";
+    results.hidden = false; historySection.hidden = true; welcomeBlock.hidden = true; pageTitle.textContent = "Hasil pemeriksaan";
     if (scroll) results.scrollIntoView({behavior:motionBehavior(),block:"start"});
   }
   function motionBehavior() { return window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"; }
@@ -202,6 +202,7 @@
     if (!window.confirm("Hapus seluruh riwayat pemeriksaan yang tersimpan di browser ini?")) return;
     history = []; saveHistory(); renderHistory(); showScanner(); showToast("Riwayat lokal sudah dihapus.");
   });
+  document.querySelector("#import-history").addEventListener("click",() => importFile.click());
   document.querySelector("#export-history").addEventListener("click",() => {
     const blob = new Blob([JSON.stringify({app:"ChocoScan",version:1,exportedAt:new Date().toISOString(),history},null,2)],{type:"application/json"});
     const url = URL.createObjectURL(blob); const link = document.createElement("a"); link.href = url; link.download = "chocoscan-memory-export.json"; link.click(); URL.revokeObjectURL(url);
