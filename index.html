@@ -3,92 +3,98 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#101827">
-  <meta name="description" content="ChocoScan membantu memeriksa tanda-tanda mencurigakan pada struktur URL secara lokal di browser.">
-  <title>ChocoScan — pemeriksa tautan</title>
+  <meta name="theme-color" content="#080b14">
+  <meta name="description" content="ChocoScan memeriksa pola URL secara lokal dan menyimpan riwayat pemeriksaan di perangkat pengguna.">
+  <title>ChocoScan</title>
   <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
   <script src="assets/js/app.js" defer></script>
 </head>
 <body>
-  <header class="topbar">
-    <a class="brand" href="./" aria-label="ChocoScan beranda">
-      <span class="brand-symbol" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M20 3 34 8v10c0 9-5.8 15.1-14 19C11.8 33.1 6 27 6 18V8z" fill="currentColor" opacity=".18"/><path d="M20 5.5 31.5 9.6v8.2c0 7.2-4.5 12.7-11.5 16.4-7-3.7-11.5-9.2-11.5-16.4V9.6z" fill="none" stroke="currentColor" stroke-width="2"/><path d="m14 20 4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      <span class="brand-name">Choco<span>Scan</span><small>LINK SAFETY CHECK</small></span>
-    </a>
-    <nav class="top-nav" aria-label="Navigasi utama"><a href="#cara-kerja">Cara kerja</a><a href="#tentang">Tentang</a><a class="nav-pill" href="#scanner">Periksa tautan <span aria-hidden="true">↗</span></a></nav>
-  </header>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="./" aria-label="ChocoScan beranda">
+        <span class="brand-icon" aria-hidden="true">C</span>
+        <span class="brand-copy"><strong>ChocoScan</strong><small>by The Choco Studios</small></span>
+      </a>
+      <button class="new-scan" id="new-scan" type="button"><span>＋</span> Pemeriksaan baru</button>
+      <div class="nav-label">WORKSPACE</div>
+      <button class="nav-item active" id="nav-scanner" type="button"><span class="nav-icon">⌕</span> Pemeriksa URL</button>
+      <button class="nav-item" id="nav-history" type="button"><span class="nav-icon">◷</span> Riwayat pemeriksaan <span class="nav-count" id="history-count">0</span></button>
+      <div class="recent-section">
+        <div class="nav-label recent-heading">TERAKHIR DIPERIKSA</div>
+        <div class="recent-list" id="recent-list"><p class="empty-recent">Belum ada pemeriksaan tersimpan.</p></div>
+      </div>
+      <div class="sidebar-bottom">
+        <div class="storage-status"><span class="storage-dot"></span><span><strong>Memori lokal aktif</strong><small>Riwayat tersimpan di perangkat ini</small></span></div>
+        <div class="sidebar-brand-foot">CHOCO SECURITY TOOLS <span>•</span> LOCAL MODE</div>
+      </div>
+    </aside>
 
-  <main>
-    <section class="hero-shell">
-      <div class="hero-grid">
-        <div class="hero-copy">
-          <div class="status-label"><span class="status-dot"></span> PEMERIKSA TAUTAN BERBASIS BROWSER</div>
-          <h1>Jangan asal klik.<br><span>Periksa dulu.</span></h1>
-          <p>Periksa tanda-tanda mencurigakan pada struktur tautan sebelum membukanya. Pemeriksaan awal berjalan di browser dan tidak mengirim URL ke server.</p>
-          <div class="trust-points"><span><i>✓</i> Tanpa akun</span><span><i>✓</i> Input tidak disimpan</span><span><i>✓</i> Hasil transparan</span></div>
+    <main class="main-panel">
+      <header class="topbar">
+        <div class="topbar-title"><button class="mobile-menu" id="mobile-menu" type="button" aria-label="Buka menu">☰</button><div><span class="eyebrow">CHOCO SECURITY TOOLS</span><h1 id="page-title">Pemeriksa URL</h1></div></div>
+        <div class="topbar-actions"><span class="mode-chip"><span></span> Analisis lokal</span><button class="icon-button" id="clear-history" type="button" title="Hapus seluruh riwayat" aria-label="Hapus seluruh riwayat">⌫</button></div>
+      </header>
+
+      <div class="main-scroll" id="main-scroll">
+        <div class="workspace-content">
+          <section class="welcome-block" id="welcome-block">
+            <div class="welcome-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M24 4 41 10v12c0 11-7 18-17 23C14 40 7 33 7 22V10z" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="m16 24 5 5 11-12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="eyebrow">LINK SAFETY CHECK</div>
+            <h2>Periksa tautan sebelum<br><span>lu membukanya.</span></h2>
+            <p>Masukkan URL untuk memeriksa pola yang mencurigakan. Hasil dan riwayat disimpan secara lokal di browser ini.</p>
+          </section>
+
+          <section class="scanner-card" id="scanner">
+            <div class="card-heading"><div><h2>Periksa sebuah tautan</h2><p>Tempel alamat lengkap, termasuk domainnya.</p></div><span class="privacy-chip">PRIVATE BY DEFAULT</span></div>
+            <form id="scan-form" novalidate>
+              <label class="sr-only" for="url-input">Alamat URL yang ingin diperiksa</label>
+              <div class="url-field"><span class="url-icon" aria-hidden="true">↗</span><input id="url-input" name="url" type="text" inputmode="url" autocomplete="url" spellcheck="false" placeholder="https://contoh-situs.com/halaman" maxlength="2048" aria-describedby="input-help input-error"><button class="clear-input" id="clear-input" type="button" aria-label="Kosongkan URL">×</button></div>
+              <p id="input-help" class="field-help">Pemeriksaan ini menilai struktur URL, bukan isi situs atau reputasi domain secara langsung.</p>
+              <p id="input-error" class="field-error" role="alert" hidden></p>
+              <button class="scan-button" id="scan-button" type="submit"><span>Periksa tautan</span><span aria-hidden="true">→</span></button>
+            </form>
+            <div class="privacy-note"><span class="privacy-icon" aria-hidden="true">⌑</span><p><strong>Privasi terjaga.</strong> URL dan hasil pemeriksaan tidak dikirim ke server. Riwayat hanya disimpan di penyimpanan lokal browser ini.</p></div>
+          </section>
+
+          <section class="results-section" id="results" aria-live="polite" hidden>
+            <div class="section-title-row"><div><div class="eyebrow">HASIL PEMERIKSAAN</div><h2>Ringkasan hasil</h2></div><span class="saved-indicator" id="saved-indicator">TERSIMPAN DI MEMORI</span></div>
+            <div class="results-card">
+              <div class="result-summary" id="result-summary"></div>
+              <div class="result-url-wrap"><span>URL YANG DIPERIKSA</span><p id="result-url" class="result-url"></p><span class="result-date" id="result-date"></span></div>
+              <div class="checks-heading"><h3>Temuan pemeriksaan</h3><span id="finding-count"></span></div>
+              <ul id="finding-list" class="finding-list"></ul>
+              <div class="result-footnote"><strong>Catatan:</strong> hasil berdasarkan pola URL saja. Risiko rendah bukan jaminan aman dan bukan pengganti layanan reputasi keamanan.</div>
+              <button id="scan-another" class="secondary-button" type="button">Periksa tautan lain</button>
+            </div>
+          </section>
+
+          <section class="history-section" id="history-section" hidden>
+            <div class="section-title-row"><div><div class="eyebrow">MEMORY BANK / LOCAL HISTORY</div><h2>Riwayat pemeriksaan</h2><p class="section-description">Pemeriksaan yang pernah dilakukan bisa dibuka lagi setelah halaman dimuat ulang.</p></div><button id="export-history" class="subtle-button" type="button">Ekspor JSON ↓</button></div>
+            <div class="history-list" id="history-list"></div>
+            <div class="history-footnote">Riwayat ini berada di localStorage browser pada perangkat ini. Menghapus data situs/browser dapat menghapus riwayat. Riwayat tidak otomatis tersinkron ke perangkat lain.</div>
+          </section>
+
+          <section class="smartlink-section" aria-labelledby="sponsor-heading">
+            <div class="sponsor-heading"><div><span class="ad-label">IKLAN</span><h2 id="sponsor-heading">Penawaran sponsor</h2><p>Tautan sponsor eksternal. Pilih secara sadar, bukan karena disamarkan sebagai peringatan keamanan.</p></div><span class="sponsor-note">SPONSORED LINKS</span></div>
+            <div class="smartlink-grid">
+              <a class="smartlink-card" href="https://auctionr.org/4/3afde96a9f3259fc90c910fac9132a43" target="_blank" rel="sponsored nofollow noopener noreferrer"><span class="smartlink-number">SPONSORED · 01</span><strong>Lihat penawaran</strong><span>Jelajahi penawaran dari mitra iklan ↗</span></a>
+              <a class="smartlink-card" href="https://auctionr.org/4/1fbc4eb17d2af2402e6a6b80c013031e" target="_blank" rel="sponsored nofollow noopener noreferrer"><span class="smartlink-number">SPONSORED · 02</span><strong>Jelajahi pilihan</strong><span>Lihat pilihan yang tersedia ↗</span></a>
+              <a class="smartlink-card" href="https://auctionr.org/4/2ad4df1c10ce88742e541ae9131cd62a" target="_blank" rel="sponsored nofollow noopener noreferrer"><span class="smartlink-number">SPONSORED · 03</span><strong>Buka penawaran</strong><span>Lanjut ke halaman mitra iklan ↗</span></a>
+              <a class="smartlink-card" href="https://auctionr.org/4/ba4bc7197697ff3b321945bf71b111d1" target="_blank" rel="sponsored nofollow noopener noreferrer"><span class="smartlink-number">SPONSORED · 04</span><strong>Lihat opsi lain</strong><span>Periksa penawaran lainnya ↗</span></a>
+            </div>
+          </section>
+
+          <footer class="app-footer"><span>ChocoScan by The Choco Studios</span><span>Analisis heuristik · tanpa backend</span></footer>
         </div>
-        <div class="hero-art" aria-hidden="true">
-          <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
-          <div class="shield-card"><svg viewBox="0 0 140 160"><path d="M70 8 122 27v37c0 39-22 65-52 84C40 129 18 103 18 64V27z" fill="#1b3554" stroke="#85b5ff" stroke-width="3"/><path d="M70 27 105 40v25c0 28-14 46-35 60-21-14-35-32-35-60V40z" fill="#142840" stroke="#5d91e7" stroke-width="1.5"/><path d="M70 45v31" stroke="#f6c66b" stroke-width="7" stroke-linecap="round"/><circle cx="70" cy="91" r="4.5" fill="#f6c66b"/></svg><span class="art-caption">CHECK BEFORE YOU CLICK</span></div>
-          <div class="float-tag tag-one"><span class="tag-dot"></span> URL pattern</div><div class="float-tag tag-two">HTTPS <b>?</b></div>
-        </div>
       </div>
-    </section>
-
-    <section class="scanner-section" id="scanner">
-      <div class="section-kicker">01 / PEMERIKSAAN</div>
-      <div class="scanner-panel">
-        <div class="panel-heading"><div><h2>Periksa sebuah tautan</h2><p>Tempel alamat lengkap, termasuk domainnya.</p></div><span class="local-badge"><span></span> ANALISIS LOKAL</span></div>
-        <form id="scan-form" novalidate>
-          <label class="sr-only" for="url-input">Alamat URL yang ingin diperiksa</label>
-          <div class="url-field"><span class="url-icon" aria-hidden="true">↗</span><input id="url-input" name="url" type="text" inputmode="url" autocomplete="url" spellcheck="false" placeholder="https://contoh-situs.com/halaman" maxlength="2048" aria-describedby="input-help input-error"><button class="clear-input" id="clear-input" type="button" aria-label="Kosongkan URL">×</button></div>
-          <p id="input-help" class="field-help">Pemeriksaan ini menilai pola URL saja, bukan isi situs atau reputasi domain secara langsung.</p>
-          <p id="input-error" class="field-error" role="alert" hidden></p>
-          <button class="scan-button" id="scan-button" type="submit"><span>Periksa tautan</span><span aria-hidden="true">→</span></button>
-        </form>
-        <div class="privacy-note"><span aria-hidden="true">⌑</span><span><strong>Privasi:</strong> URL dianalisis di browser ini. ChocoScan versi prototipe tidak mengirim, menyimpan, atau membuka tautan yang diperiksa.</span></div>
-      </div>
-      <section class="smartlink-section" aria-labelledby="sponsor-heading">
-        <div class="smartlink-heading"><div><span class="ad-label">IKLAN</span><h2 id="sponsor-heading">Penawaran sponsor</h2><p>Didukung oleh mitra iklan. Buka hanya jika penawarannya memang relevan buat lu.</p></div><span class="smartlink-note">TAUTAN EKSTERNAL</span></div>
-        <div class="smartlink-grid">
-          <a class="smartlink-card" href="https://auctionr.org/4/3afde96a9f3259fc90c910fac9132a43" target="_blank" rel="sponsored nofollow noopener noreferrer"><span class="smartlink-number">SPONSORED · 01</span><strong>Lihat penawaran</strong><span>Jelajahi penawaran dari mitra iklan ↗</span></a>
-          <a class="smartlink-card" href="https://auctionr.org/4/1fbc4eb17d2af2402e6a6b80c013031e" target="_blank" rel="sponsored nofollow noopener noreferrer"><span class="smartlink-number">SPONSORED · 02</span><strong>Jelajahi pilihan</strong><span>Lihat pilihan yang tersedia ↗</span></a>
-          <a class="smartlink-card" href="https://auctionr.org/4/2ad4df1c10ce88742e541ae9131cd62a" target="_blank" rel="sponsored nofollow noopener noreferrer"><span class="smartlink-number">SPONSORED · 03</span><strong>Buka penawaran</strong><span>Lanjut ke halaman mitra iklan ↗</span></a>
-          <a class="smartlink-card" href="https://auctionr.org/4/ba4bc7197697ff3b321945bf71b111d1" target="_blank" rel="sponsored nofollow noopener noreferrer"><span class="smartlink-number">SPONSORED · 04</span><strong>Lihat opsi lain</strong><span>Periksa penawaran lainnya ↗</span></a>
-        </div>
-      </section>
-    </section>
-
-    <section class="results-section" id="results" aria-live="polite" hidden>
-      <div class="section-kicker">02 / HASIL PEMERIKSAAN</div>
-      <div class="results-panel">
-        <div class="result-summary" id="result-summary"></div>
-        <div class="result-url-wrap"><span>URL YANG DIPERIKSA</span><p id="result-url" class="result-url"></p></div>
-        <div class="checks-heading"><h3>Temuan pemeriksaan</h3><span id="finding-count"></span></div>
-        <ul id="finding-list" class="finding-list"></ul>
-        <div class="result-footnote"><strong>Perlu diingat:</strong> hasil ini hanya berdasarkan pola URL. Tautan berisiko rendah belum tentu aman, dan pemeriksaan ini bukan pengganti layanan reputasi keamanan atau antivirus.</div>
-        <button id="scan-another" class="secondary-button" type="button">Periksa tautan lain</button>
-      </div>
-    </section>
-
-    <section class="info-section" id="cara-kerja">
-      <div class="section-kicker">03 / CARA KERJA</div>
-      <div class="info-heading"><h2>Petunjuk, bukan<br><span>vonis mutlak.</span></h2><p>Alamat situs bisa memberi sinyal risiko, tetapi tidak cukup untuk memastikan sebuah halaman aman atau berbahaya.</p></div>
-      <div class="steps-grid">
-        <article class="step-card"><span class="step-number">01</span><div class="step-icon">⌕</div><h3>Periksa pola</h3><p>ChocoScan melihat HTTPS, format domain, karakter URL, dan pola yang sering dipakai untuk menyamarkan alamat.</p></article>
-        <article class="step-card"><span class="step-number">02</span><div class="step-icon">◈</div><h3>Baca temuannya</h3><p>Setiap sinyal ditampilkan dengan alasan yang jelas. Satu tanda saja tidak otomatis membuktikan phishing.</p></article>
-        <article class="step-card"><span class="step-number">03</span><div class="step-icon">✓</div><h3>Putuskan dengan hati-hati</h3><p>Periksa nama domain, pengirim, dan konteks pesan. Jangan masukkan kata sandi dari tautan yang tidak dipercaya.</p></article>
-      </div>
-    </section>
-
-    <section class="about-section" id="tentang"><div class="about-mark">C</div><div><div class="section-kicker">TENTANG CHOCOSCAN</div><h2>Keamanan dimulai dari kebiasaan kecil.</h2><p>ChocoScan adalah prototipe pemeriksa pola URL yang mengutamakan kejelasan dan privasi. Integrasi reputasi domain dan threat-intelligence belum tersedia pada versi ini.</p></div></section>
-  </main>
-
-  <footer class="footer"><a class="footer-brand" href="./">ChocoScan</a><span>Prototipe pemeriksaan URL · Tanpa backend</span><a href="#scanner">Kembali ke pemeriksa ↑</a></footer>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <input id="import-file" type="file" accept="application/json,.json" hidden>
 </body>
 </html>
